@@ -4,9 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>AI Portfolio - Immersive Scroll Edition</title>
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
@@ -15,7 +13,6 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
       rel="stylesheet"
     />
-
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -38,23 +35,15 @@
 
     <style type="text/tailwindcss">
       @layer base {
-        :root {
-          --header-h: 0px; /* se calcula por JS */
-        }
-
-        /* Scroll SIMPLE (sin snap) */
         html {
-          scroll-behavior: smooth;
-          scroll-padding-top: var(--header-h); /* offset al navegar por anchors */
+          scroll-snap-type: y mandatory;
         }
-
         body {
           @apply bg-charcoal text-gray-100 antialiased overflow-x-hidden;
         }
-
-        /* Offset para que el header fijo no tape títulos al llegar por #hash */
         section {
-          scroll-margin-top: var(--header-h);
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
         }
       }
 
@@ -66,7 +55,6 @@
         );
         background-size: 48px 48px;
       }
-
       .gradient-glow {
         background: radial-gradient(
           circle at 50% 50%,
@@ -74,7 +62,6 @@
           transparent 70%
         );
       }
-
       .scroll-dot {
         @apply w-2 h-2 rounded-full bg-white/20 transition-all duration-300 hover:bg-cyber-violet/50;
       }
@@ -82,7 +69,9 @@
         @apply h-8 bg-cyber-violet;
       }
 
-      /* Reveal on enter */
+      /* -----------------------------
+         Reveal on enter
+      ------------------------------ */
       .reveal {
         opacity: 0;
         transform: translateY(18px) scale(0.995);
@@ -96,11 +85,8 @@
         filter: blur(0);
       }
 
-      /* Reduce Motion */
+      /* Respeta Reduce Motion */
       @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto !important;
-        }
         .reveal {
           opacity: 1 !important;
           transform: none !important;
@@ -113,25 +99,32 @@
 
   <body class="bg-charcoal">
     <!-- Scroll dots -->
-    <div class="fixed right-8 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col gap-4">
+    <div
+      class="fixed right-8 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col gap-4"
+    >
       <a class="scroll-dot active" href="#hero" title="Top"></a>
       <a class="scroll-dot" href="#projects" title="Portfolio"></a>
       <a class="scroll-dot" href="#skills" title="Tech Stack"></a>
       <a class="scroll-dot" href="#contact" title="Connect"></a>
     </div>
 
-    <!-- Background layers (IDs for parallax) -->
-    <div id="neural" class="fixed inset-0 neural-bg pointer-events-none opacity-40"></div>
+    <!-- Background layers (IDs added for parallax) -->
+    <div
+      id="neural"
+      class="fixed inset-0 neural-bg pointer-events-none opacity-40"
+    ></div>
     <div id="glow" class="fixed inset-0 gradient-glow pointer-events-none"></div>
 
-    <!-- Header (ID para medir altura) -->
     <header
-      id="site-header"
       class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-charcoal/60 backdrop-blur-2xl border-b border-white/5"
     >
       <div class="flex items-center gap-3">
-        <div class="size-10 bg-cyber-violet/10 border border-cyber-violet/20 rounded-xl flex items-center justify-center">
-          <span class="material-symbols-outlined text-cyber-violet text-2xl font-light">hub</span>
+        <div
+          class="size-10 bg-cyber-violet/10 border border-cyber-violet/20 rounded-xl flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined text-cyber-violet text-2xl font-light"
+            >hub</span
+          >
         </div>
         <h1 class="text-white text-xl font-bold tracking-tight">
           AI<span class="text-cyber-violet">Portfolio</span>
@@ -139,16 +132,24 @@
       </div>
 
       <nav class="hidden md:flex items-center gap-12">
-        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#hero"
+        <a
+          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
+          href="#hero"
           >Start</a
         >
-        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#projects"
+        <a
+          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
+          href="#projects"
           >Work</a
         >
-        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#skills"
+        <a
+          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
+          href="#skills"
           >Stack</a
         >
-        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#contact"
+        <a
+          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
+          href="#contact"
           >Contact</a
         >
       </nav>
@@ -166,28 +167,37 @@
     </header>
 
     <main class="relative z-10">
-      <!-- HERO -->
-      <section class="min-h-screen w-full flex flex-col items-center justify-center px-6 text-center relative overflow-hidden" id="hero">
+      <!-- HERO (wrapped in .reveal) -->
+      <section
+        class="h-screen w-full flex flex-col items-center justify-center px-6 text-center relative overflow-hidden"
+        id="hero"
+      >
         <div class="reveal">
           <div
             class="mb-8 inline-flex items-center gap-3 px-5 py-2 rounded-full bg-cyber-violet/10 border border-cyber-violet/20 text-cyber-violet text-xs font-bold uppercase tracking-widest"
           >
             <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-violet opacity-75"></span>
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-violet opacity-75"
+              ></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-cyber-violet"></span>
             </span>
             AI Master's Scholar • Deep Learning Researcher
           </div>
 
-          <h1 class="text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-10 max-w-6xl leading-[1]">
+          <h1
+            class="text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-10 max-w-6xl leading-[1]"
+          >
             Synthesizing <br />
-            <span class="bg-gradient-to-r from-cyber-violet via-fuchsia-400 to-violet-500 bg-clip-text text-transparent"
+            <span
+              class="bg-gradient-to-r from-cyber-violet via-fuchsia-400 to-violet-500 bg-clip-text text-transparent"
               >Intelligence.</span
             >
           </h1>
 
           <p class="text-gray-400 text-lg md:text-2xl max-w-3xl leading-relaxed mb-14 font-medium">
-            Designing production-ready LLMs and autonomous systems at the intersection of advanced research and scalable architecture.
+            Designing production-ready LLMs and autonomous systems at the intersection of advanced
+            research and scalable architecture.
           </p>
 
           <div class="flex flex-col sm:flex-row gap-6 justify-center">
@@ -206,18 +216,27 @@
           </div>
         </div>
 
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 animate-bounce">
+        <div
+          class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 animate-bounce"
+        >
           <span class="text-[10px] uppercase tracking-widest font-bold">Scroll</span>
           <span class="material-symbols-outlined">expand_more</span>
         </div>
       </section>
 
-      <!-- PROJECTS -->
-      <section class="min-h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 bg-white/[0.01]" id="projects">
+      <!-- PROJECTS (added .reveal on main container) -->
+      <section
+        class="h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 bg-white/[0.01]"
+        id="projects"
+      >
         <div class="max-w-7xl mx-auto w-full reveal">
           <div class="mb-16">
-            <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">Case Studies</h2>
-            <h3 class="text-white text-5xl md:text-7xl font-bold tracking-tight">Neural Repositories.</h3>
+            <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">
+              Case Studies
+            </h2>
+            <h3 class="text-white text-5xl md:text-7xl font-bold tracking-tight">
+              Neural Repositories.
+            </h3>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -225,10 +244,14 @@
               class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
             >
               <div>
-                <div class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8">
+                <div
+                  class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8"
+                >
                   <span class="material-symbols-outlined text-4xl">neurology</span>
                 </div>
-                <h4 class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight">
+                <h4
+                  class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight"
+                >
                   Attention Optimizer v2
                 </h4>
                 <p class="text-gray-400 text-base leading-relaxed">
@@ -237,16 +260,21 @@
               </div>
               <div class="space-y-6">
                 <div class="flex flex-wrap gap-2">
-                  <span class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
                     >PyTorch</span
                   >
-                  <span class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
                     >CUDA</span
                   >
                 </div>
                 <a class="inline-flex items-center gap-2 text-white font-bold group/link" href="#">
                   Source Code
-                  <span class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform">arrow_right_alt</span>
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform"
+                    >arrow_right_alt</span
+                  >
                 </a>
               </div>
             </div>
@@ -255,10 +283,14 @@
               class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
             >
               <div>
-                <div class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8">
+                <div
+                  class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8"
+                >
                   <span class="material-symbols-outlined text-4xl">art_track</span>
                 </div>
-                <h4 class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight">
+                <h4
+                  class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight"
+                >
                   Vision RL Agents
                 </h4>
                 <p class="text-gray-400 text-base leading-relaxed">
@@ -267,16 +299,21 @@
               </div>
               <div class="space-y-6">
                 <div class="flex flex-wrap gap-2">
-                  <span class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
                     >TensorFlow</span
                   >
-                  <span class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
                     >ROS2</span
                   >
                 </div>
                 <a class="inline-flex items-center gap-2 text-white font-bold group/link" href="#">
                   Source Code
-                  <span class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform">arrow_right_alt</span>
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform"
+                    >arrow_right_alt</span
+                  >
                 </a>
               </div>
             </div>
@@ -285,10 +322,14 @@
               class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
             >
               <div>
-                <div class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8">
+                <div
+                  class="size-14 rounded-2xl bg-cyber-violet/10 flex items-center justify-center text-cyber-violet mb-8"
+                >
                   <span class="material-symbols-outlined text-4xl">cloud_sync</span>
                 </div>
-                <h4 class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight">
+                <h4
+                  class="text-3xl font-bold text-white mb-4 group-hover:text-cyber-violet transition-colors leading-tight"
+                >
                   Auto-MLOps Engine
                 </h4>
                 <p class="text-gray-400 text-base leading-relaxed">
@@ -297,16 +338,21 @@
               </div>
               <div class="space-y-6">
                 <div class="flex flex-wrap gap-2">
-                  <span class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-cyber-violet/20 text-cyber-violet rounded-full tracking-wider uppercase"
                     >MLflow</span
                   >
-                  <span class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
+                  <span
+                    class="px-3 py-1 text-[10px] font-black bg-white/5 text-gray-500 rounded-full tracking-wider uppercase"
                     >Kubernetes</span
                   >
                 </div>
                 <a class="inline-flex items-center gap-2 text-white font-bold group/link" href="#">
                   Source Code
-                  <span class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform">arrow_right_alt</span>
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/link:translate-x-1 transition-transform"
+                    >arrow_right_alt</span
+                  >
                 </a>
               </div>
             </div>
@@ -314,12 +360,19 @@
         </div>
       </section>
 
-      <!-- SKILLS -->
-      <section class="min-h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 relative overflow-hidden" id="skills">
+      <!-- SKILLS (added .reveal on main grid container) -->
+      <section
+        class="h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 relative overflow-hidden"
+        id="skills"
+      >
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center reveal">
           <div>
-            <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">Expertise</h2>
-            <h3 class="text-white text-5xl md:text-7xl font-bold mb-10 tracking-tight">Technical Stack.</h3>
+            <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">
+              Expertise
+            </h2>
+            <h3 class="text-white text-5xl md:text-7xl font-bold mb-10 tracking-tight">
+              Technical Stack.
+            </h3>
             <p class="text-gray-400 text-xl mb-16 leading-relaxed">
               From theoretical mathematics to containerized cloud deployment, my toolkit is built for the next generation of AI.
             </p>
@@ -360,7 +413,9 @@
             <div
               class="aspect-square bg-slate-custom/30 rounded-[2.5rem] border border-white/5 flex items-center justify-center hover:bg-cyber-violet/5 hover:border-cyber-violet/20 transition-all group"
             >
-              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors">functions</span>
+              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors"
+                >functions</span
+              >
             </div>
             <div
               class="aspect-square bg-cyber-violet rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-cyber-violet/40 hover:scale-105 transition-all"
@@ -370,29 +425,37 @@
             <div
               class="aspect-square bg-slate-custom/30 rounded-[2.5rem] border border-white/5 flex items-center justify-center hover:bg-cyber-violet/5 hover:border-cyber-violet/20 transition-all group"
             >
-              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors">terminal</span>
+              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors"
+                >terminal</span
+              >
             </div>
             <div
               class="aspect-square bg-slate-custom/30 rounded-[2.5rem] border border-white/5 flex items-center justify-center hover:bg-cyber-violet/5 hover:border-cyber-violet/20 transition-all group"
             >
-              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors">memory</span>
+              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors"
+                >memory</span
+              >
             </div>
             <div
               class="aspect-square bg-slate-custom/30 rounded-[2.5rem] border border-white/5 flex items-center justify-center hover:bg-cyber-violet/5 hover:border-cyber-violet/20 transition-all group"
             >
-              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors">schema</span>
+              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors"
+                >schema</span
+              >
             </div>
             <div
               class="aspect-square bg-slate-custom/30 rounded-[2.5rem] border border-white/5 flex items-center justify-center hover:bg-cyber-violet/5 hover:border-cyber-violet/20 transition-all group"
             >
-              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors">hub</span>
+              <span class="material-symbols-outlined text-5xl text-gray-600 group-hover:text-cyber-violet transition-colors"
+                >hub</span
+              >
             </div>
           </div>
         </div>
       </section>
 
-      <!-- CONTACT -->
-      <section class="min-h-screen w-full flex flex-col justify-center px-6" id="contact">
+      <!-- CONTACT (added .reveal on main container) -->
+      <section class="h-screen w-full flex flex-col justify-center px-6" id="contact">
         <div
           class="max-w-7xl mx-auto w-full bg-gradient-to-b from-slate-custom/30 to-transparent p-12 md:p-32 rounded-[4rem] border border-white/5 relative overflow-hidden text-center reveal"
         >
@@ -403,7 +466,6 @@
             <p class="text-gray-400 text-xl md:text-2xl mb-16 max-w-2xl mx-auto leading-relaxed">
               Currently seeking opportunities in AI Research &amp; Engineering. Ready to build something remarkable together?
             </p>
-
             <div class="flex flex-wrap justify-center gap-6">
               <button
                 class="bg-cyber-violet text-white h-20 px-14 rounded-3xl text-xl font-black hover:scale-105 transition-all flex items-center gap-3 shadow-2xl shadow-cyber-violet/30"
@@ -420,9 +482,13 @@
             </div>
           </div>
 
-          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-cyber-violet/10 blur-[150px] pointer-events-none rounded-full"></div>
+          <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-cyber-violet/10 blur-[150px] pointer-events-none rounded-full"
+          ></div>
 
-          <div class="absolute bottom-16 left-0 w-full px-12 md:px-32 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-500">
+          <div
+            class="absolute bottom-16 left-0 w-full px-12 md:px-32 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-500"
+          >
             <div class="flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em]">
               <a class="hover:text-cyber-violet transition-colors" href="#">GitHub</a>
               <a class="hover:text-cyber-violet transition-colors" href="#">Arxiv</a>
@@ -434,19 +500,15 @@
       </section>
     </main>
 
-    <!-- Script: Header height auto + Reveal + Dots + Parallax -->
+    <!-- ============================================================
+         Script: Reveal + Dots activos + Parallax
+    ============================================================= -->
     <script>
-      // Header height -> CSS var (--header-h)
-      const header = document.getElementById("site-header");
-      const setHeaderH = () => {
-        const h = header ? header.getBoundingClientRect().height : 0;
-        document.documentElement.style.setProperty("--header-h", `${Math.ceil(h)}px`);
-      };
-      window.addEventListener("load", setHeaderH);
-      window.addEventListener("resize", setHeaderH);
-
+      // -----------------------------
       // Reveal on enter
+      // -----------------------------
       const revealEls = document.querySelectorAll(".reveal");
+
       const revealIO = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -455,42 +517,57 @@
         },
         { threshold: 0.15 }
       );
+
       revealEls.forEach((el) => revealIO.observe(el));
 
-      // Active dots
+      // -----------------------------
+      // Dots activos (según sección visible)
+      // -----------------------------
       const sections = [...document.querySelectorAll("main section[id]")];
       const dots = [...document.querySelectorAll(".scroll-dot")];
+
       const dotsIO = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (!e.isIntersecting) return;
             const id = e.target.id;
-            dots.forEach((d) => d.classList.toggle("active", d.getAttribute("href") === `#${id}`));
+            dots.forEach((d) => {
+              d.classList.toggle("active", d.getAttribute("href") === `#${id}`);
+            });
           });
         },
         { threshold: 0.6 }
       );
+
       sections.forEach((s) => dotsIO.observe(s));
 
-      // Parallax background
+      // -----------------------------
+      // Parallax background (requestAnimationFrame)
+      // -----------------------------
       const neural = document.getElementById("neural");
       const glow = document.getElementById("glow");
+
       if (neural && glow) {
         let raf = null;
+
         const onScroll = () => {
           if (raf) return;
           raf = requestAnimationFrame(() => {
             const y = window.scrollY || 0;
+
+            // Sutil = mejor. Ajusta a gusto.
             neural.style.transform = `translate3d(0, ${y * 0.06}px, 0)`;
             glow.style.transform = `translate3d(0, ${y * 0.1}px, 0)`;
+
             raf = null;
           });
         };
+
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
       }
 
-      // Load with hash => set dot
+      // (Opcional) Si se carga con hash (#skills), marca el dot correcto
       window.addEventListener("load", () => {
         const hash = window.location.hash;
         if (!hash) return;
