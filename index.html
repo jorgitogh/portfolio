@@ -69,9 +69,6 @@
         @apply h-8 bg-cyber-violet;
       }
 
-      /* -----------------------------
-         Reveal on enter
-      ------------------------------ */
       .reveal {
         opacity: 0;
         transform: translateY(18px) scale(0.995);
@@ -85,7 +82,6 @@
         filter: blur(0);
       }
 
-      /* Respeta Reduce Motion */
       @media (prefers-reduced-motion: reduce) {
         .reveal {
           opacity: 1 !important;
@@ -98,7 +94,7 @@
   </head>
 
   <body class="bg-charcoal">
-    <!-- Scroll dots -->
+
     <div
       class="fixed right-8 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col gap-4"
     >
@@ -108,7 +104,7 @@
       <a class="scroll-dot" href="#contact" title="Connect"></a>
     </div>
 
-    <!-- Background layers (IDs added for parallax) -->
+    
     <div
       id="neural"
       class="fixed inset-0 neural-bg pointer-events-none opacity-40"
@@ -167,7 +163,6 @@
     </header>
 
     <main class="relative z-10">
-      <!-- HERO (wrapped in .reveal) -->
       <section
         class="h-screen w-full flex flex-col items-center justify-center px-6 text-center relative overflow-hidden"
         id="hero"
@@ -222,7 +217,6 @@
         </div>
       </section>
 
-      <!-- PROJECTS (added .reveal on main container) -->
       <section
         class="min-h-screen w-full flex flex-col justify-start pt-24 pb-16 px-6 md:px-24 lg:px-48 bg-white/[0.01]"
         id="projects"
@@ -236,7 +230,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div
-              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
+              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col min-h-[520px]"
             >
               <div>
                 <div
@@ -275,7 +269,7 @@
             </div>
 
             <div
-              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
+              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col min-h-[520px]"
             >
               <div>
                 <div
@@ -314,7 +308,7 @@
             </div>
 
             <div
-              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col justify-between aspect-[4/5]"
+              class="group relative bg-slate-custom/40 border border-white/5 rounded-[2rem] p-10 hover:border-cyber-violet/50 transition-all flex flex-col min-h-[520px]"
             >
               <div>
                 <div
@@ -354,8 +348,6 @@
           </div>
         </div>
       </section>
-
-      <!-- SKILLS (added .reveal on main grid container) -->
       <section
         class="h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 relative overflow-hidden"
         id="skills"
@@ -445,8 +437,6 @@
           </div>
         </div>
       </section>
-
-      <!-- CONTACT (added .reveal on main container) -->
       <section class="h-screen w-full flex flex-col justify-center px-6" id="contact">
         <div
           class="max-w-7xl mx-auto w-full bg-gradient-to-b from-slate-custom/30 to-transparent p-12 md:p-32 rounded-[4rem] border border-white/5 relative overflow-hidden text-center reveal"
@@ -492,13 +482,7 @@
       </section>
     </main>
 
-    <!-- ============================================================
-         Script: Reveal + Dots activos + Parallax
-    ============================================================= -->
     <script>
-      // -----------------------------
-      // Reveal on enter
-      // -----------------------------
       const revealEls = document.querySelectorAll(".reveal");
 
       const revealIO = new IntersectionObserver(
@@ -511,10 +495,6 @@
       );
 
       revealEls.forEach((el) => revealIO.observe(el));
-
-      // -----------------------------
-      // Dots activos (según sección visible)
-      // -----------------------------
       const sections = [...document.querySelectorAll("main section[id]")];
       const dots = [...document.querySelectorAll(".scroll-dot")];
 
@@ -533,9 +513,6 @@
 
       sections.forEach((s) => dotsIO.observe(s));
 
-      // -----------------------------
-      // Parallax background (requestAnimationFrame)
-      // -----------------------------
       const neural = document.getElementById("neural");
       const glow = document.getElementById("glow");
 
@@ -558,8 +535,6 @@
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
       }
-
-      // (Opcional) Si se carga con hash (#skills), marca el dot correcto
       window.addEventListener("load", () => {
         const hash = window.location.hash;
         if (!hash) return;
