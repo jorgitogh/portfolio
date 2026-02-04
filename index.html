@@ -39,21 +39,21 @@
     <style type="text/tailwindcss">
       @layer base {
         :root {
-          --header-h: 0px; /* se calcula por JS automáticamente */
+          --header-h: 0px; /* se calcula por JS */
         }
 
+        /* Scroll SIMPLE (sin snap) */
         html {
-          scroll-snap-type: y mandatory;
-          scroll-padding-top: var(--header-h);
+          scroll-behavior: smooth;
+          scroll-padding-top: var(--header-h); /* offset al navegar por anchors */
         }
 
         body {
           @apply bg-charcoal text-gray-100 antialiased overflow-x-hidden;
         }
 
+        /* Offset para que el header fijo no tape títulos al llegar por #hash */
         section {
-          scroll-snap-align: start;
-          scroll-snap-stop: always;
           scroll-margin-top: var(--header-h);
         }
       }
@@ -142,17 +142,13 @@
         <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#hero"
           >Start</a
         >
-        <a
-          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
-          href="#projects"
+        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#projects"
           >Work</a
         >
         <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#skills"
           >Stack</a
         >
-        <a
-          class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]"
-          href="#contact"
+        <a class="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]" href="#contact"
           >Contact</a
         >
       </nav>
@@ -171,7 +167,7 @@
 
     <main class="relative z-10">
       <!-- HERO -->
-      <section class="h-screen w-full flex flex-col items-center justify-center px-6 text-center relative overflow-hidden" id="hero">
+      <section class="min-h-screen w-full flex flex-col items-center justify-center px-6 text-center relative overflow-hidden" id="hero">
         <div class="reveal">
           <div
             class="mb-8 inline-flex items-center gap-3 px-5 py-2 rounded-full bg-cyber-violet/10 border border-cyber-violet/20 text-cyber-violet text-xs font-bold uppercase tracking-widest"
@@ -217,7 +213,7 @@
       </section>
 
       <!-- PROJECTS -->
-      <section class="h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 bg-white/[0.01]" id="projects">
+      <section class="min-h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 bg-white/[0.01]" id="projects">
         <div class="max-w-7xl mx-auto w-full reveal">
           <div class="mb-16">
             <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">Case Studies</h2>
@@ -319,7 +315,7 @@
       </section>
 
       <!-- SKILLS -->
-      <section class="h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 relative overflow-hidden" id="skills">
+      <section class="min-h-screen w-full flex flex-col justify-center px-6 md:px-24 lg:px-48 relative overflow-hidden" id="skills">
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center reveal">
           <div>
             <h2 class="text-cyber-violet text-sm font-bold uppercase tracking-[0.4em] mb-4">Expertise</h2>
@@ -396,7 +392,7 @@
       </section>
 
       <!-- CONTACT -->
-      <section class="h-screen w-full flex flex-col justify-center px-6" id="contact">
+      <section class="min-h-screen w-full flex flex-col justify-center px-6" id="contact">
         <div
           class="max-w-7xl mx-auto w-full bg-gradient-to-b from-slate-custom/30 to-transparent p-12 md:p-32 rounded-[4rem] border border-white/5 relative overflow-hidden text-center reveal"
         >
@@ -438,11 +434,9 @@
       </section>
     </main>
 
-    <!-- Script: Reveal + Dots + Parallax + Header height auto -->
+    <!-- Script: Header height auto + Reveal + Dots + Parallax -->
     <script>
-      // -----------------------------
       // Header height -> CSS var (--header-h)
-      // -----------------------------
       const header = document.getElementById("site-header");
       const setHeaderH = () => {
         const h = header ? header.getBoundingClientRect().height : 0;
@@ -451,11 +445,8 @@
       window.addEventListener("load", setHeaderH);
       window.addEventListener("resize", setHeaderH);
 
-      // -----------------------------
       // Reveal on enter
-      // -----------------------------
       const revealEls = document.querySelectorAll(".reveal");
-
       const revealIO = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -464,39 +455,28 @@
         },
         { threshold: 0.15 }
       );
-
       revealEls.forEach((el) => revealIO.observe(el));
 
-      // -----------------------------
-      // Dots activos (según sección visible)
-      // -----------------------------
+      // Active dots
       const sections = [...document.querySelectorAll("main section[id]")];
       const dots = [...document.querySelectorAll(".scroll-dot")];
-
       const dotsIO = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (!e.isIntersecting) return;
             const id = e.target.id;
-            dots.forEach((d) => {
-              d.classList.toggle("active", d.getAttribute("href") === `#${id}`);
-            });
+            dots.forEach((d) => d.classList.toggle("active", d.getAttribute("href") === `#${id}`));
           });
         },
         { threshold: 0.6 }
       );
-
       sections.forEach((s) => dotsIO.observe(s));
 
-      // -----------------------------
-      // Parallax background (requestAnimationFrame)
-      // -----------------------------
+      // Parallax background
       const neural = document.getElementById("neural");
       const glow = document.getElementById("glow");
-
       if (neural && glow) {
         let raf = null;
-
         const onScroll = () => {
           if (raf) return;
           raf = requestAnimationFrame(() => {
@@ -506,12 +486,11 @@
             raf = null;
           });
         };
-
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
       }
 
-      // Si se carga con hash (#skills), marca el dot correcto
+      // Load with hash => set dot
       window.addEventListener("load", () => {
         const hash = window.location.hash;
         if (!hash) return;
